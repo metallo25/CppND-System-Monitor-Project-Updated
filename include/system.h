@@ -5,23 +5,27 @@
 #include <vector>
 
 #include "process.h"
-#include "processor.h"
+#include "linux_system_spec.h"
 
+using namespace std;
 class System {
  public:
-  Processor& Cpu();                   // TODO: See src/system.cpp
-  std::vector<Process>& Processes();  // TODO: See src/system.cpp
-  float MemoryUtilization();          // TODO: See src/system.cpp
-  long UpTime();                      // TODO: See src/system.cpp
-  int TotalProcesses();               // TODO: See src/system.cpp
-  int RunningProcesses();             // TODO: See src/system.cpp
-  std::string Kernel();               // TODO: See src/system.cpp
-  std::string OperatingSystem();      // TODO: See src/system.cpp
+     System(LinuxSystemSpec);
+     float Cpu();                   // TODO: See src/system.cpp
+     std::vector<Process>& Processes();  // TODO: See src/system.cpp
+     float MemoryUtilization();          
+     long UpTime();                      
+     long TotalProcesses();               
+     long RunningProcesses();             
+     string Kernel();               
+     string OperatingSystem();      
 
   // TODO: Define any necessary private members
  private:
-  Processor cpu_ = {};
-  std::vector<Process> processes_ = {};
+     LinuxSystemSpec linux_system_spec;
+     string kernel;
+     string operating_system;
+     std::vector<Process> processes_ = {};
 };
 
 #endif
