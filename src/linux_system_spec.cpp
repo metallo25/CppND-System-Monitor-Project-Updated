@@ -21,14 +21,15 @@ float LinuxSystemSpec::get_memory_utilization() {
 
 long LinuxSystemSpec::get_up_time() {
     std::ifstream filestream(kProcDirectory+kUptimeFilename);
+    string up_time,idle_time;
     if (filestream.is_open()) {
         string line;
-        string up_time,idle_time;
+        
         std::getline(filestream, line);
         std::istringstream linestream(line);
         linestream >> up_time >> idle_time;
-        return stol(up_time);
   }
+  return stol(up_time);
 
 }
 
@@ -133,11 +134,13 @@ std::map<std::string, std::string> LinuxSystemSpec::_makeInfoMap(string path){
 
 double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_name){
     std::ifstream filestream(path);
+    double result=0.0;
     if (filestream.is_open()) {
         string line;
         string name;
         std::vector<std::string> processor_time_reading(10);
         std::getline(filestream, line);
+        
         while (std::getline(filestream, line)) {
             std::istringstream linestream(line);
         
@@ -159,13 +162,13 @@ double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_n
                 float system_all_time=stod(processor_time_reading[2])+stod(processor_time_reading[5]+processor_time_reading[6]);
                 float virtall_time=stod(processor_time_reading[8]) + stod(processor_time_reading[9]);
                 float total_time= user_time+nice_time+system_all_time+idle_all_time+stod(processor_time_reading[7])+virtall_time;
-                return ((total_time-idle_all_time)/total_time);
+                result= ((total_time-idle_all_time)/total_time);
                 }
           }
     throw(("Processor name invalid:"+(processor_name)));
 
     }
-  
+  return result;
 };
 
 
