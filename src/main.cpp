@@ -7,5 +7,5 @@
 int main() {
   LinuxSystemSpec s1;
   System system(s1);
-  NCursesDisplay::Display(system,60);
+  NCursesDisplay::Display(system,10);
 }
