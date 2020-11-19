@@ -125,10 +125,11 @@ std::map<std::string, std::string> LinuxProcessSpec::_makeProcessInfoMap(int pid
 std::vector<std::string> LinuxProcessSpec::_get_process_stat(int pid){
 
 	std::ifstream filestream(kProcDirectory+to_string(pid)+kStatFilename);
+	std::vector<std::string> process_time_reading(22);
     if (filestream.is_open()) {
         string line;
         string name;
-        std::vector<std::string> process_time_reading(22);
+        
         std::getline(filestream, line);
         std::istringstream linestream(line);   
         linestream >> name >> process_time_reading[0]>>
@@ -153,7 +154,8 @@ std::vector<std::string> LinuxProcessSpec::_get_process_stat(int pid){
                               process_time_reading[19]>>
                               process_time_reading[20]>>
                               process_time_reading[21];
-        return process_time_reading;
+        
         
         } 
+     return process_time_reading;
 }

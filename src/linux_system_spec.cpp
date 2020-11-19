@@ -133,15 +133,19 @@ std::map<std::string, std::string> LinuxSystemSpec::_makeInfoMap(string path){
 
 double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_name){
     std::ifstream filestream(path);
+    std::vector<std::string> processor_time_reading(10);
+    bool found_process= false;
+    double result;
     if (filestream.is_open()) {
         string line;
         string name;
-        std::vector<std::string> processor_time_reading(10);
+        
         std::getline(filestream, line);
         while (std::getline(filestream, line)) {
             std::istringstream linestream(line);
         
             if(line.find(processor_name)!=string::npos){
+                found_process=true;
                 linestream >> name >> processor_time_reading[0]>>
                                       processor_time_reading[1]>>
                                       processor_time_reading[2]>>
@@ -159,13 +163,16 @@ double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_n
                 float system_all_time=stod(processor_time_reading[2])+stod(processor_time_reading[5]+processor_time_reading[6]);
                 float virtall_time=stod(processor_time_reading[8]) + stod(processor_time_reading[9]);
                 float total_time= user_time+nice_time+system_all_time+idle_all_time+stod(processor_time_reading[7])+virtall_time;
-                return ((total_time-idle_all_time)/total_time);
+                result = total_time;
                 }
           }
-    throw(("Processor name invalid:"+(processor_name)));
+    if  (!found_process){
+      throw(("Processor name invalid:"+(processor_name)));
+    }
+    
 
     }
-  
+  return result;
 };
 
 
