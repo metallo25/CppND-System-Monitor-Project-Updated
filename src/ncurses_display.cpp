@@ -7,7 +7,7 @@
 #include "format.h"
 #include "ncurses_display.h"
 #include "system.h"
-
+#include "iostream"
 using std::string;
 using std::to_string;
 
@@ -32,10 +32,46 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   int row{0};
   mvwprintw(window, ++row, 2, ("OS: " + system.OperatingSystem()).c_str());
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
-  mvwprintw(window, ++row, 2, "CPU: ");
   wattron(window, COLOR_PAIR(1));
+
+  mvwprintw(window, ++row, 2, "Aggregate CPU: ");
   mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu()).c_str());
+  wprintw(window, ProgressBar(system.Cpu(0)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU1: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(1)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU2: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(2)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU3: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(3)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU4: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(4)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU5: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(5)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU6: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(6)).c_str());
+
+  mvwprintw(window, ++row, 2, "CPU7: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(7)).c_str());
+  
+  mvwprintw(window, ++row, 2, "CPU8: ");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(8)).c_str());
+
+
+
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2, "Memory: ");
   wattron(window, COLOR_PAIR(1));
@@ -52,7 +88,7 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   wrefresh(window);
 }
 
-void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
+void NCursesDisplay::DisplayProcesses(std::vector<Process> processes,
                                       WINDOW* window, int n) {
   int row{0};
   int const pid_column{2};
@@ -89,7 +125,7 @@ void NCursesDisplay::Display(System& system, int n) {
   start_color();  // enable color
 
   int x_max{getmaxx(stdscr)};
-  WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
+  WINDOW* system_window = newwin(18, x_max - 1, 0, 0);
   WINDOW* process_window =
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 

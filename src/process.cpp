@@ -3,30 +3,35 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "process.h"
+#include "linux_process_spec.h"
 
 using std::string;
 using std::to_string;
 using std::vector;
 
-// TODO: Return this process's ID
-int Process::Pid() { return 0; }
+Process::Process(int process_id) {
+	this->process_id=process_id;
+}
+
+int Process::Pid() { 
+	return this->process_id; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+float Process::CpuUtilization() { return this->linux_process_spec.get_cpu_utilization(this->process_id); }
 
 // TODO: Return the command that generated this process
-string Process::Command() { return string(); }
+string Process::Command() { return this->linux_process_spec.get_command(this->process_id); }
 
 // TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+string Process::Ram() { return this->linux_process_spec.get_ram(this->process_id); }
 
-// TODO: Return the user (name) that generated this process
-string Process::User() { return string(); }
+string Process::User() { return this->linux_process_spec.get_user(this->process_id); }
 
 // TODO: Return the age of this process (in seconds)
-long int Process::UpTime() { return 0; }
+long int Process::UpTime() { return this->linux_process_spec.get_up_time(this->process_id); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function

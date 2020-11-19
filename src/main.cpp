@@ -6,7 +6,6 @@
 
 int main() {
   LinuxSystemSpec s1;
-  std::cout<<s1.get_kernel();
   System system(s1);
-  NCursesDisplay::Display(system);
+  NCursesDisplay::Display(system,60);
 }

@@ -6,13 +6,14 @@
 
 #include "process.h"
 #include "linux_system_spec.h"
+#include "linux_process_spec.h"
 
 using namespace std;
 class System {
  public:
      System(LinuxSystemSpec);
-     float Cpu();                   // TODO: See src/system.cpp
-     std::vector<Process>& Processes();  // TODO: See src/system.cpp
+     float Cpu(int);                   
+     std::vector<Process> Processes(); 
      float MemoryUtilization();          
      long UpTime();                      
      long TotalProcesses();               
@@ -23,9 +24,9 @@ class System {
   // TODO: Define any necessary private members
  private:
      LinuxSystemSpec linux_system_spec;
+     LinuxProcessSpec linux_process_spec;
      string kernel;
      string operating_system;
-     std::vector<Process> processes_ = {};
 };
 
 #endif
