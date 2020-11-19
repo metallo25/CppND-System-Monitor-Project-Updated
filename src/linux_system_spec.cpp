@@ -38,7 +38,7 @@ long LinuxSystemSpec::get_total_processes() {
   return stol(process_info_map["processes"]);
 };
 
-// TODO: Read and return the number of running processes
+// Read and return the number of running processes
 long LinuxSystemSpec::get_running_processes() {
   auto process_info_map=this->_makeInfoMap(kProcDirectory+kStatFilename);
   return stol(process_info_map["procs_running"]);
@@ -135,6 +135,7 @@ std::map<std::string, std::string> LinuxSystemSpec::_makeInfoMap(string path){
 double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_name){
     std::ifstream filestream(path);
     double result=0.0;
+    bool found_process=false;
     if (filestream.is_open()) {
         string line;
         string name;
@@ -145,6 +146,7 @@ double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_n
             std::istringstream linestream(line);
         
             if(line.find(processor_name)!=string::npos){
+                found_process=true;
                 linestream >> name >> processor_time_reading[0]>>
                                       processor_time_reading[1]>>
                                       processor_time_reading[2]>>
@@ -165,7 +167,10 @@ double LinuxSystemSpec::_getProcessorUtilization(string path, string processor_n
                 result= ((total_time-idle_all_time)/total_time);
                 }
           }
-    throw(("Processor name invalid:"+(processor_name)));
+    if (!(found_process)){
+      throw(("Processor name invalid:"+(processor_name)));
+    }
+    
 
     }
   return result;
