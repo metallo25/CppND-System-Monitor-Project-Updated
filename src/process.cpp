@@ -34,5 +34,9 @@ string Process::User() { return this->linux_process_spec.get_user(this->process_
 long int Process::UpTime() { return this->linux_process_spec.get_up_time(this->process_id); }
 
 // Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+// logic used: if a process is greater than other process, if it has lesser cpu usage.
+bool Process::operator<(Process& a) {
+   auto process_cpu_utilization = this->linux_process_spec.get_cpu_utilization(this->process_id);
+   bool result = (process_cpu_utilization>a.CpuUtilization()) ?true  : false;
+   return result;
+}
