@@ -38,7 +38,7 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   string processor_name;
   for (auto i=0; i<num_processors; i++){
 
-    processor_name = (i==0) ? "Aggregate CPU: " : ("Cpu"+to_string(i));
+    processor_name = ("Cpu"+to_string(i));
 
     mvwprintw(window, ++row, 2, processor_name.c_str());
     mvwprintw(window, row, 10, "");
