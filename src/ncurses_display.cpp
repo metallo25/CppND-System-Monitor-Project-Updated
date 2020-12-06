@@ -34,6 +34,10 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
   wattron(window, COLOR_PAIR(1));
 
+  mvwprintw(window, ++row, 2, "Aggregate CPU:");
+  mvwprintw(window, row, 10, "");
+  wprintw(window, ProgressBar(system.Cpu(-1)).c_str());
+
   auto num_processors = system.TotalProcessors();
   string processor_name;
   for (auto i=0; i<num_processors; i++){

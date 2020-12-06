@@ -107,7 +107,7 @@ int LinuxSystemSpec::get_num_cpu_processors(){
 
 //  Read and return CPU utilization
 float LinuxSystemSpec::get_cpu_utilization(int id) { 
-    string processor_name = (id==0) ? "cpu" : ("cpu"+to_string(id-1));
+    string processor_name = (id==-1) ? "cpu" : ("cpu"+to_string(id));
     return this->_getProcessorUtilization((kProcDirectory+kStatFilename),processor_name); }
 
 // Return a container composed of the system's processes
