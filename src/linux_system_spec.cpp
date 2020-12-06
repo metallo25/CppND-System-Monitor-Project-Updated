@@ -80,6 +80,30 @@ string LinuxSystemSpec::get_kernel() {
     
 };
 
+// returns the number of cpu cores
+int LinuxSystemSpec::get_num_cpu_processors(){
+
+  string line;
+  string key;
+  string value;
+  std::ifstream filestream(kProcDirectory+kCpuinfoFilename);
+  int num_processor=0;
+  if (filestream.is_open()) {
+      while (std::getline(filestream, line)) {
+        std::replace(line.begin(), line.end(), ':', ' ');
+        std::istringstream linestream(line);
+        while (linestream >> key  >> value) {
+          if (key == "processor") {
+            num_processor++;
+          }
+        }
+     }
+
+  }
+
+  return num_processor;
+    
+}
 
 //  Read and return CPU utilization
 float LinuxSystemSpec::get_cpu_utilization(int id) { 

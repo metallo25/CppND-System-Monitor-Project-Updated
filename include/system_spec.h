@@ -17,6 +17,7 @@ class SystemSpec {
         virtual string get_operating_system()=0;
         virtual string get_kernel()=0;
         virtual float get_cpu_utilization(int)=0;
+        virtual int get_num_cpu_processors()=0;
 };
 
 #endif

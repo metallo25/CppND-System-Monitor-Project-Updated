@@ -14,6 +14,7 @@ class LinuxSystemSpec : public SystemSpec  {
         std::string  get_kernel() override;
         float get_cpu_utilization(int id) override;
         vector<Process> get_all_processes();
+        int get_num_cpu_processors() override;
 
     private:
     	std::map<std::string,std::string> _makeInfoMap(std::string);

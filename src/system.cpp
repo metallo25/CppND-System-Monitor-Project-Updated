@@ -32,4 +32,6 @@ long System::RunningProcesses() { return this->linux_system_spec.get_running_pro
 
 long System::TotalProcesses() { return this->linux_system_spec.get_total_processes(); }
 
+int System::TotalProcessors() { return this->linux_system_spec.get_num_cpu_processors();}
+
 long System::UpTime() { return LinuxSystemSpec::get_up_time(); }

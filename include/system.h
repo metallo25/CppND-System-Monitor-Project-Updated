@@ -19,7 +19,8 @@ class System {
      long TotalProcesses();               
      long RunningProcesses();             
      string Kernel();               
-     string OperatingSystem();      
+     string OperatingSystem();
+     int TotalProcessors();    
 
   // TODO: Define any necessary private members
  private:

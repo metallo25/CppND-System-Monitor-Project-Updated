@@ -34,43 +34,17 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
   wattron(window, COLOR_PAIR(1));
 
-  mvwprintw(window, ++row, 2, "Aggregate CPU: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(0)).c_str());
+  auto num_processors = system.TotalProcessors();
+  string processor_name;
+  for (auto i=0; i<num_processors; i++){
 
-  mvwprintw(window, ++row, 2, "CPU1: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(1)).c_str());
+    processor_name = (i==0) ? "Aggregate CPU: " : ("Cpu"+to_string(i));
 
-  mvwprintw(window, ++row, 2, "CPU2: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(2)).c_str());
+    mvwprintw(window, ++row, 2, processor_name.c_str());
+    mvwprintw(window, row, 10, "");
+    wprintw(window, ProgressBar(system.Cpu(i)).c_str());
 
-  mvwprintw(window, ++row, 2, "CPU3: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(3)).c_str());
-
-  mvwprintw(window, ++row, 2, "CPU4: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(4)).c_str());
-
-  mvwprintw(window, ++row, 2, "CPU5: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(5)).c_str());
-
-  mvwprintw(window, ++row, 2, "CPU6: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(6)).c_str());
-
-  mvwprintw(window, ++row, 2, "CPU7: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(7)).c_str());
-  
-  mvwprintw(window, ++row, 2, "CPU8: ");
-  mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu(8)).c_str());
-
-
+  }
 
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2, "Memory: ");
