@@ -44,7 +44,7 @@ double LinuxProcessSpec::get_cpu_utilization(int pid) {
     double seconds = LinuxSystemSpec::get_up_time() - (starttime / hertz);
 
 
-    double cpu_usage = 100 * ((total_time / hertz) / seconds);
+    double cpu_usage = ((total_time / hertz) / seconds);
     return cpu_usage;
 
 
@@ -94,11 +94,17 @@ long LinuxProcessSpec::get_up_time(int pid) {
     
     std::vector<std::string> process_time_reading = _get_process_stat(pid);
 
-	double process_uptime = stod(process_time_reading[21]);
+	double process_time_in_ticks = stod(process_time_reading[21]);
 
 	double hertz =  sysconf(_SC_CLK_TCK);
 
-	return process_uptime/hertz;
+	double system_uptime = LinuxSystemSpec::get_up_time();
+
+    double process_time_in_seconds = process_time_in_ticks/hertz;
+
+    double process_uptime = system_uptime - process_time_in_seconds;
+
+	return process_uptime;
 
 }
 
@@ -125,7 +131,7 @@ std::map<std::string, std::string> LinuxProcessSpec::_makeProcessInfoMap(int pid
 std::vector<std::string> LinuxProcessSpec::_get_process_stat(int pid){
 
 	std::ifstream filestream(kProcDirectory+to_string(pid)+kStatFilename);
-	std::vector<std::string> process_time_reading(22);
+	std::vector<std::string> process_time_reading(52);
     if (filestream.is_open()) {
         string line;
         string name;
@@ -153,7 +159,37 @@ std::vector<std::string> LinuxProcessSpec::_get_process_stat(int pid){
                               process_time_reading[18]>>
                               process_time_reading[19]>>
                               process_time_reading[20]>>
-                              process_time_reading[21];
+                              process_time_reading[21]>>
+                              process_time_reading[22]>>
+                              process_time_reading[23]>>
+                              process_time_reading[24]>>
+                              process_time_reading[25]>>
+                              process_time_reading[26]>>
+                              process_time_reading[27]>>
+                              process_time_reading[28]>>
+                              process_time_reading[29]>>
+                              process_time_reading[30]>>
+                              process_time_reading[31]>>
+                              process_time_reading[32]>>
+                              process_time_reading[33]>>
+                              process_time_reading[34]>>
+                              process_time_reading[35]>>
+                              process_time_reading[36]>>
+                              process_time_reading[37]>>
+                              process_time_reading[38]>>
+                              process_time_reading[39]>>
+                              process_time_reading[40]>>
+                              process_time_reading[41]>>
+                              process_time_reading[42]>>
+                              process_time_reading[43]>>
+                              process_time_reading[44]>>
+                              process_time_reading[45]>>
+                              process_time_reading[46]>>
+                              process_time_reading[47]>>
+                              process_time_reading[48]>>
+                              process_time_reading[49]>>
+                              process_time_reading[50]>>
+                              process_time_reading[51];
         }
     return process_time_reading;
          
