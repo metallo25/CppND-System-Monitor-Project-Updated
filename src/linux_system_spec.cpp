@@ -122,9 +122,12 @@ vector<Process> LinuxSystemSpec::get_all_processes() {
     if (file->d_type == DT_DIR) {
       // Is every character of the name a digit?
       string filename(file->d_name);
+      if (filename.length()==0){
+        continue;
+      }
       if (std::all_of(filename.begin(), filename.end(), [](auto i){return isdigit(i);})){
-          int pid = stoi(filename);
-          pids.push_back(pid);
+        int pid = stoi(filename);
+        pids.push_back(pid);
       }
     }
   }
